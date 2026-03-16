@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+
+<body>
+
+<h2>Dynamic Table Generator</h2>
+
+<form>
+
+<label>Table Title:</label><br>
+<input type="text" id="title"><br><br>
+
+<label>Number of Rows:</label><br>
+<input type="number" id="rows"><br><br>
+
+<label>Number of Columns:</label><br>
+<input type="number" id="cols"><br><br>
+
+<label>Cell Data:</label><br>
+<input type="text" id="data"><br><br>
+
+<button type="button" onclick="createTable()">Generate Table</button>
+
+</form>
+
+<br>
+
+<div id="result"></div>
+
+</body>
+<script>
+
+function createTable(){
+
+var rows = document.getElementById("rows").value;
+var cols = document.getElementById("cols").value;
+var title = document.getElementById("title").value;
+var data = document.getElementById("data").value;
+
+if(title == ""){
+alert("Please enter table title");
+return;
+}
+
+if(rows == "" || cols == ""){
+alert("Please enter rows and columns");
+return;
+}
+
+var table = "<h3>" + title + "</h3>";
+table = table + "<table border='1'>";
+
+for(var i=1; i<=rows; i++){
+
+table = table + "<tr>";
+
+for(var j=1; j<=cols; j++){
+
+table = table + "<td>" + data + "</td>";
+
+}
+
+table = table + "</tr>";
+}
+
+table = table + "</table>";
+
+document.getElementById("result").innerHTML = table;
+
+}
+
+</script>
+
+</head>
+
+</html>
