@@ -1,78 +1,202 @@
 <!DOCTYPE html>
 <html>
 <head>
+<title>Smart Table Generator</title>
 
+<style>
+body {
+    font-family: 'Segoe UI', sans-serif;
+    margin: 0;
+    transition: 0.3s;
+}
 
-<body>
+/* LIGHT THEME */
+.light {
+    background: #f4f7ff;
+    color: #222;
+}
 
-<h2>Dynamic Table Generator</h2>
+/* DARK THEME */
+.dark {
+    background: #121212;
+    color: #eee;
+}
 
-<form>
+/* NAVBAR */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    background: #6c63ff;
+    padding: 15px;
+    color: white;
+}
 
-<label>Table Title:</label><br>
-<input type="text" id="title"><br><br>
+.navbar button {
+    margin-left: 10px;
+    padding: 6px 10px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
 
-<label>Number of Rows:</label><br>
-<input type="number" id="rows"><br><br>
+/* PAGES */
+.page {
+    display: none;
+    padding: 20px;
+    text-align: center;
+}
 
-<label>Number of Columns:</label><br>
-<input type="number" id="cols"><br><br>
+.active {
+    display: block;
+}
 
-<label>Cell Data:</label><br>
-<input type="text" id="data"><br><br>
+/* FORM CARD */
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    width: 320px;
+    margin: auto;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
 
-<button type="button" onclick="createTable()">Generate Table</button>
+.dark .card {
+    background: #1e1e1e;
+}
 
-</form>
+/* INPUT */
+input {
+    width: 90%;
+    padding: 8px;
+    margin: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
 
-<br>
+/* BUTTON */
+button.main {
+    background: #6c63ff;
+    color: white;
+    padding: 10px;
+    margin-top: 10px;
+}
 
-<div id="result"></div>
+button.main:hover {
+    background: #5548d9;
+}
 
-</body>
+/* TABLE */
+table {
+    margin: auto;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+td {
+    padding: 10px;
+    border: 1px solid gray;
+}
+
+tr:nth-child(even) {
+    background: #f2f2f2;
+}
+
+.dark tr:nth-child(even) {
+    background: #2a2a2a;
+}
+</style>
+
+</head>
+
+<body class="light">
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div>
+        <button onclick="showPage('home')">Home</button>
+        <button onclick="showPage('generator')">Generator</button>
+        <button onclick="showPage('about')">About</button>
+    </div>
+    <div>
+        <button onclick="toggleTheme()">🌙 Toggle Theme</button>
+    </div>
+</div>
+
+<!-- HOME PAGE -->
+<div id="home" class="page active">
+    <h2>Welcome 👋</h2>
+    <p>This is a Smart Dynamic Table Generator Project</p>
+</div>
+
+<!-- GENERATOR PAGE -->
+<div id="generator" class="page">
+    <h2>Dynamic Table Generator</h2>
+
+    <div class="card">
+        <input type="text" id="title" placeholder="Table Title"><br>
+        <input type="number" id="rows" placeholder="Rows"><br>
+        <input type="number" id="cols" placeholder="Columns"><br>
+        <input type="text" id="data" placeholder="Cell Data"><br>
+
+        <button class="main" onclick="createTable()">Generate Table</button>
+    </div>
+
+    <div id="result"></div>
+</div>
+
+<!-- ABOUT PAGE -->
+<div id="about" class="page">
+    <h2>About Project</h2>
+    <p>This project is built using HTML, CSS, and JavaScript.</p>
+    <p>It demonstrates DOM manipulation and dynamic content generation.</p>
+</div>
+
 <script>
 
+// PAGE SWITCH
+function showPage(pageId){
+    var pages = document.querySelectorAll(".page");
+    pages.forEach(p => p.classList.remove("active"));
+    document.getElementById(pageId).classList.add("active");
+}
+
+// THEME TOGGLE
+function toggleTheme(){
+    var body = document.body;
+    body.classList.toggle("dark");
+    body.classList.toggle("light");
+}
+
+// TABLE FUNCTION
 function createTable(){
 
-var rows = document.getElementById("rows").value;
-var cols = document.getElementById("cols").value;
-var title = document.getElementById("title").value;
-var data = document.getElementById("data").value;
+    var rows = document.getElementById("rows").value;
+    var cols = document.getElementById("cols").value;
+    var title = document.getElementById("title").value;
+    var data = document.getElementById("data").value;
 
-if(title == ""){
-alert("Please enter table title");
-return;
-}
+    if(title == "" || rows == "" || cols == ""){
+        alert("Fill all fields!");
+        return;
+    }
 
-if(rows == "" || cols == ""){
-alert("Please enter rows and columns");
-return;
-}
+    var table = "<h3>" + title + "</h3>";
+    table += "<table>";
 
-var table = "<h3>" + title + "</h3>";
-table = table + "<table border='1'>";
+    for(var i=0; i<rows; i++){
+        table += "<tr>";
+        for(var j=0; j<cols; j++){
+            table += "<td>" + data + "</td>";
+        }
+        table += "</tr>";
+    }
 
-for(var i=1; i<=rows; i++){
+    table += "</table>";
 
-table = table + "<tr>";
-
-for(var j=1; j<=cols; j++){
-
-table = table + "<td>" + data + "</td>";
-
-}
-
-table = table + "</tr>";
-}
-
-table = table + "</table>";
-
-document.getElementById("result").innerHTML = table;
-
+    document.getElementById("result").innerHTML = table;
 }
 
 </script>
 
-</head>
-
+</body>
 </html>
